@@ -1,17 +1,18 @@
 package model.data_structures;
 
 public class Nodo<T> {
-    private Nodo siguiente;
+    private String type;
+    private Nodo<T> siguiente;
     private T properties;
     private T geometry;
 
-    public Nodo(Nodo siguiente, T properties, T geometry){
+    public Nodo(Nodo<T> siguiente, T properties, T geometry){
         this.siguiente = siguiente;
         this.properties = properties;
         this.geometry = geometry;
     }
 
-    public Nodo getSiguiente() {
+    public Nodo<T> getSiguiente() {
         return siguiente;
     }
 
@@ -23,7 +24,7 @@ public class Nodo<T> {
         return geometry;
     }
 
-    public void setSiguiente(Nodo siguiente) {
+    public void setSiguiente(Nodo<T> siguiente) {
         this.siguiente = siguiente;
     }
 

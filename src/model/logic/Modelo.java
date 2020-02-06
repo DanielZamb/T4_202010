@@ -1,39 +1,38 @@
 package model.logic;
 
-import model.data_structures.ArregloDinamico;
-import model.data_structures.IArregloDinamico;
+import model.data_structures.*;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Definicion del modelo del mundo
  *
  */
-public class Modelo {
+public class Modelo<T> {
 	/**
 	 * Atributos del modelo del mundo
 	 */
 	private IArregloDinamico datos;
-	
+	private ListaEncadenada listaComparendos;
+	private Nodo<T> nodoComparendo;
+	private ArrayList<T> comparendorArr;
 	/**
 	 * Constructor del modelo del mundo con capacidad predefinida
 	 */
-	public Modelo()
-	{
-		datos = new ArregloDinamico(7);
+	public Modelo(){
 	}
-	
-	/**
-	 * Constructor del modelo del mundo con capacidad dada
-	 * @param tamano
-	 */
-	public Modelo(int capacidad)
+	public Modelo(List<T> comparendosJson)
 	{
-		datos = new ArregloDinamico(capacidad);
+		cargarComparendos(comparendosJson);
 	}
-	
-	/**
-	 * Servicio de consulta de numero de elementos presentes en el modelo 
-	 * @return numero de elementos presentes en el modelo
-	 */
+	public void cargarComparendos(List<T> comparendosJson){
+		nodoComparendo = (Nodo<T>) comparendosJson.get(0);
+		System.out.println(nodoComparendo);
+
+	}
+
 	public int darTamano()
 	{
 		return datos.darTamano();
@@ -44,10 +43,10 @@ public class Modelo {
 	 * @param dato
 	 */
 	public void agregar(String dato)
-	{	
+	{
 		datos.agregar(dato);
 	}
-	
+
 	/**
 	 * Requerimiento buscar dato
 	 * @param dato Dato a buscar
@@ -57,7 +56,7 @@ public class Modelo {
 	{
 		return datos.buscar(dato);
 	}
-	
+
 	/**
 	 * Requerimiento eliminar dato
 	 * @param dato Dato a eliminar
@@ -67,6 +66,7 @@ public class Modelo {
 	{
 		return datos.eliminar(dato);
 	}
+
 
 
 }

@@ -2,12 +2,13 @@ package model.data_structures;
 
 import java.util.Iterator;
 
-public class IteratorLista {
+public class IteratorLista<T> {
     private String iteratorCS;
-    private ListaEncadenada lst;
-    private Nodo primero;
+    private ListaEncadenada<T> lst;
+    private Nodo<T> primero;
 
-    public IteratorLista(ListaEncadenada lst, String iteratorCS, Nodo primero) throws Exception {
+
+    public IteratorLista(ListaEncadenada<T> lst, String iteratorCS, Nodo<T> primero) throws Exception {
         this.lst = lst;
         this.iteratorCS = iteratorCS;
         this.primero = primero;
@@ -16,7 +17,7 @@ public class IteratorLista {
     public void setIteratorCS(String iteratorCS) {
         this.iteratorCS = iteratorCS;
     }
-    public void Iterator(Nodo primero)throws Exception{
+    public void Iterator(Nodo<T> primero)throws Exception{
         if (lst.getTamanio() > 1){
             if (iteratorCS.equals("iniciar")){
                 lst.setPrimerNodo(primero);
@@ -42,11 +43,11 @@ public class IteratorLista {
     }
     public void IteratorPrevious()throws Exception{
         if (lst.consultarActual() != null){
-            Nodo evaluado = lst.getPrimerNodo();
+            Nodo<T> evaluado = lst.getPrimerNodo();
             boolean cent = false;
             while (evaluado != null && !cent){
                 if (evaluado.getSiguiente().equals(lst.consultarActual())) {
-                    lst.setActual(evaluado); 
+                    lst.setActual(evaluado);
                     cent = true;
                 }
                 else evaluado = evaluado.getSiguiente();
