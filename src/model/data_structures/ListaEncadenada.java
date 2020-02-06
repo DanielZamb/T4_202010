@@ -3,15 +3,29 @@ package model.data_structures;
 public class ListaEncadenada {
     private Nodo primerNodo;
     private Nodo ultimoNodo;
+    private Nodo primeroAntiguo;
     private int tamanio;
     private Nodo actual;
+    private IteratorLista iter;
     public ListaEncadenada(Nodo primerNodo){
         this.primerNodo = primerNodo;
+        primeroAntiguo = primerNodo;
         this.tamanio = 0;
         ultimoNodo = primerNodo;
         actual = null;
+        iter = null;
         darTamañoLista();
     }
+    public void Iterador(String ControlS,Nodo primeroPersonal) throws Exception {
+        iter = new IteratorLista(this,ControlS,primeroPersonal);
+    }
+    public Nodo consultarActual() {
+        return actual;
+    }
+    public void setActual(Nodo actual) {
+        this.actual = actual;
+    }
+
     public int getTamanio(){
         return tamanio;
     }
@@ -36,6 +50,10 @@ public class ListaEncadenada {
         this.ultimoNodo = ultimoNodo;
     }
 
+    public Nodo getPrimeroAntiguo() {
+        return primeroAntiguo;
+    }
+
     public void darTamañoLista(){
         if (primerNodo!=null){
             Nodo evaluado = primerNodo;
@@ -45,10 +63,14 @@ public class ListaEncadenada {
             }
         }
     }
-    public void appendNode(Nodo nuevo){
+    public void AppendNode(Nodo nuevo){
         nuevo.setSiguiente(primerNodo);
         primerNodo = nuevo;
+        primeroAntiguo = primerNodo;
         darTamañoLista();
+    }
+    public void appendNodeInPos(Nodo nuevo, int pos){
+
     }
     public Nodo ConsultarNodo(int pos){
         Nodo buscado = null;
@@ -69,19 +91,18 @@ public class ListaEncadenada {
         Nodo anterior = ConsultarNodo(pos-1);
         if (pos == tamanio-1) {
             anterior.setSiguiente(null);
+            ultimoNodo = anterior;
         } else if (pos == 0){
+            Nodo siguiente = primerNodo.getSiguiente();
             primerNodo.setSiguiente(null);
+            primerNodo = siguiente;
+            primeroAntiguo = primerNodo;
         } else {
-        Nodo aBorrar = ConsultarNodo(pos);
-        anterior.setSiguiente(aBorrar.getSiguiente());
-        aBorrar.setSiguiente(null);
+            Nodo aBorrar = ConsultarNodo(pos);
+            anterior.setSiguiente(aBorrar.getSiguiente());
+            aBorrar.setSiguiente(null);
         }
         darTamañoLista();
-    }
-    public void iniciarRecorrido(Nodo primero){
-        ListaEncadenada lst = new ListaEncadenada(primero);
-        lst.setUltimoNodo(ConsultarNodo(lst.tamanio-1));
-
     }
 
 }
