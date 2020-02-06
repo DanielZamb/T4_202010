@@ -19,7 +19,7 @@ public class ArregloDinamico implements IArregloDinamico {
         /**
          * Arreglo de elementos de tamaNo maximo
          */
-        private String elementos[ ];
+        private String[] elementos;
 
         /**
          * Construir un arreglo con la capacidad maxima inicial.
