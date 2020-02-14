@@ -20,12 +20,8 @@ public class GsonParser {
         String json = "./data/comparendos_dei_2018_BIG.geojson";
         BufferedReader br = new BufferedReader(new FileReader(json));
         Comparendos comparendos = gson.fromJson(br, Comparendos.class);
-        Modelo mdl = new Modelo(comparendos.darListaFeatures());
-        if (comparendos != null){
-        for(Features feature: comparendos.darListaFeatures()) {
-            System.out.println("localidad del comparendo :"+ feature.DarProperties().getLOCALIDAD());
-            }
-        }
+        Modelo<Features> mdl = new Modelo(comparendos.darListaFeatures());
+
         br.close();
     }
 }

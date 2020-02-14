@@ -35,7 +35,7 @@ public class IteratorLista<T> {
     }
     public void IteratorNext()throws Exception{
         if (lst.consultarActual() != null){
-            lst.setActual(lst.consultarActual().getSiguiente());
+            lst.setActual((Nodo<T>) lst.consultarActual().getSiguiente());
         }
         else {
             throw new Exception("debes incializar el iterador");
@@ -50,7 +50,7 @@ public class IteratorLista<T> {
                     lst.setActual(evaluado);
                     cent = true;
                 }
-                else evaluado = evaluado.getSiguiente();
+                else evaluado = (Nodo<T>) evaluado.getSiguiente();
             }
         }
         else {

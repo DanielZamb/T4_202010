@@ -2,6 +2,7 @@ package model.logic;
 
 import model.data_structures.*;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -15,22 +16,29 @@ public class Modelo<T> {
 	 * Atributos del modelo del mundo
 	 */
 	private IArregloDinamico datos;
-	private ListaEncadenada listaComparendos;
+	private ListaEncadenada<T> listaComparendos;
 	private Nodo<T> nodoComparendo;
-	private ArrayList<T> comparendorArr;
-	/**
-	 * Constructor del modelo del mundo con capacidad predefinida
-	 */
+
+
 	public Modelo(){
 	}
-	public Modelo(List<T> comparendosJson)
+	public Modelo(List<T> listaFeatures)
 	{
-		cargarComparendos(comparendosJson);
+		cargarComparendos(listaFeatures);
 	}
-	public void cargarComparendos(List<T> comparendosJson){
-		nodoComparendo = (Nodo<T>) comparendosJson.get(0);
-		System.out.println(nodoComparendo);
+	public void cargarComparendos(List<T> listaFeatures){
+		try {
+			Nodo<Features> primero = new Nodo<Features>(null, (Features) listaFeatures.get(0));
+			listaFeatures.remove(0);
+			listaComparendos = new ListaEncadenada<T>((Nodo<T>) primero);
+			listaFeatures.forEach(feature -> {
+				nodoComparendo = new Nodo<T>(null,(T) feature);
+				listaComparendos.AppendNode(nodoComparendo);
+				System.out.println(listaComparendos.getTamanio());
+			});
 
+
+		}catch (Exception e){e.printStackTrace();}
 	}
 
 	public int darTamano()

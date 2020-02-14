@@ -1,6 +1,7 @@
 package model.data_structures;
 
 public class ListaEncadenada<T>{
+
     private Nodo<T> primerNodo;
     private Nodo<T> ultimoNodo;
     private Nodo<T> primeroAntiguo;
@@ -10,11 +11,10 @@ public class ListaEncadenada<T>{
     public ListaEncadenada(Nodo<T> primerNodo){
         this.primerNodo = primerNodo;
         primeroAntiguo = primerNodo;
-        this.tamanio = 0;
+        this.tamanio = 1;
         ultimoNodo = primerNodo;
         actual = null;
         iter = null;
-        darTamañoLista();
     }
     public void Iterador(String ControlS,Nodo<T> primeroPersonal) throws Exception {
         iter = new IteratorLista(this,ControlS,primeroPersonal);
@@ -54,20 +54,23 @@ public class ListaEncadenada<T>{
         return primeroAntiguo;
     }
 
+    @Deprecated
     public void darTamañoLista(){
+        int contador = 0;
         if (primerNodo!=null){
             Nodo<T> evaluado = primerNodo;
             while (evaluado != null){
-                tamanio++;
-                evaluado = evaluado.getSiguiente();
+                contador++;
+                evaluado = (Nodo<T>) evaluado.getSiguiente();
             }
         }
+        tamanio = contador;
     }
     public void AppendNode(Nodo<T> nuevo){
-        nuevo.setSiguiente(primerNodo);
-        primerNodo = nuevo;
         primeroAntiguo = primerNodo;
-        darTamañoLista();
+        nuevo.setSiguiente((T) primerNodo);
+        primerNodo = nuevo;
+        tamanio++;
     }
     public void appendNodeInPos(Nodo<T> nuevo, int pos){
 
@@ -93,16 +96,16 @@ public class ListaEncadenada<T>{
             anterior.setSiguiente(null);
             ultimoNodo = anterior;
         } else if (pos == 0){
-            Nodo<T> siguiente = primerNodo.getSiguiente();
+            Nodo<T> siguiente = (Nodo<T>) primerNodo.getSiguiente();
+            primeroAntiguo = primerNodo;
             primerNodo.setSiguiente(null);
             primerNodo = siguiente;
-            primeroAntiguo = primerNodo;
         } else {
             Nodo<T> aBorrar = ConsultarNodo(pos);
             anterior.setSiguiente(aBorrar.getSiguiente());
             aBorrar.setSiguiente(null);
         }
-        darTamañoLista();
+        tamanio--;
     }
 
 }

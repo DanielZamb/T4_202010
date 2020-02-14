@@ -1,38 +1,36 @@
 package model.data_structures;
 
 public class Nodo<T> {
-    private String type;
-    private Nodo<T> siguiente;
-    private T properties;
-    private T geometry;
+    private T siguiente;
+    private T info;
 
-    public Nodo(Nodo<T> siguiente, T properties, T geometry){
+    public Nodo(T siguiente, T features){
         this.siguiente = siguiente;
-        this.properties = properties;
-        this.geometry = geometry;
+        this.info = features;
     }
 
-    public Nodo<T> getSiguiente() {
+    public T getSiguiente() {
         return siguiente;
     }
 
-    public T getProperties() {
-        return properties;
+    public T getFeature() {
+        return info;
     }
 
-    public T getGeometry() {
-        return geometry;
-    }
 
-    public void setSiguiente(Nodo<T> siguiente) {
+    public void setSiguiente(T siguiente) {
         this.siguiente = siguiente;
     }
 
-    public void setProperties(T properties) {
-        this.properties = properties;
+    public void setInfo(T feature) {
+        this.info = feature;
     }
-
-    public void setGeometry(T geometry) {
-        this.geometry = geometry;
+    @Override
+    public String toString(){
+        String rta = "";
+        try{
+        rta = "properties del nodo: " + this.getFeature().getClass().getField("properties") ;
+    }catch (Exception e){e.printStackTrace();}
+    return rta;
     }
 }
