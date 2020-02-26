@@ -1,28 +1,30 @@
 package model.data_structures;
 
-public class ListaEncadenada {
-    private Nodo primerNodo;
-    private Nodo ultimoNodo;
-    private Nodo primeroAntiguo;
+public class ListaEncadenada<T> implements IListaEncadenada<T>{
+
+    private Nodo<T> primerNodo;
+    private Nodo<T> ultimoNodo;
+    private Nodo<T> primeroAntiguo;
     private int tamanio;
-    private Nodo actual;
+    private Nodo<T> actual;
     private IteratorLista iter;
-    public ListaEncadenada(Nodo primerNodo){
+    public ListaEncadenada(Nodo<T> primerNodo){
         this.primerNodo = primerNodo;
         primeroAntiguo = primerNodo;
-        this.tamanio = 0;
+        this.tamanio = 1;
         ultimoNodo = primerNodo;
         actual = null;
         iter = null;
-        darTamañoLista();
     }
-    public void Iterador(String ControlS,Nodo primeroPersonal) throws Exception {
-        iter = new IteratorLista(this,ControlS,primeroPersonal);
+
+    public void Iterador(String ControlS,Nodo<T> primeroPersonal) throws Exception {
+        iter = (IteratorLista<T>) new IteratorLista((ListaEncadenada<T>) this,ControlS,(Nodo<T>)primeroPersonal);
     }
-    public Nodo consultarActual() {
+
+    public Nodo<T> consultarActual() {
         return actual;
     }
-    public void setActual(Nodo actual) {
+    public void setActual(Nodo<T> actual) {
         this.actual = actual;
     }
 
@@ -30,15 +32,15 @@ public class ListaEncadenada {
         return tamanio;
     }
 
-    public Nodo getPrimerNodo() {
+    public Nodo<T> getPrimerNodo() {
         return primerNodo;
     }
 
-    public Nodo getUltimoNodo() {
+    public Nodo<T> getUltimoNodo() {
         return ultimoNodo;
     }
 
-    public void setPrimerNodo(Nodo primerNodo) {
+    public void setPrimerNodo(Nodo<T> primerNodo) {
         this.primerNodo = primerNodo;
     }
 
@@ -46,63 +48,71 @@ public class ListaEncadenada {
         this.tamanio = tamanio;
     }
 
-    public void setUltimoNodo(Nodo ultimoNodo) {
+    public void setPrimeroAntiguo(Nodo<T> primeroAntiguo) {
+        this.primeroAntiguo = primeroAntiguo;
+    }
+
+    public void setUltimoNodo(Nodo<T> ultimoNodo) {
         this.ultimoNodo = ultimoNodo;
     }
 
-    public Nodo getPrimeroAntiguo() {
+    public Nodo<T> getPrimeroAntiguo() {
         return primeroAntiguo;
     }
 
-    public void darTamañoLista(){
+    @Deprecated
+    public void darTamanioLista(){
+        int contador = 0;
         if (primerNodo!=null){
-            Nodo evaluado = primerNodo;
+            Nodo<T> evaluado = primerNodo;
             while (evaluado != null){
-                tamanio++;
-                evaluado = evaluado.getSiguiente();
+                contador++;
+                evaluado = (Nodo<T>) evaluado.getSiguiente();
             }
         }
+        tamanio = contador;
     }
-    public void AppendNode(Nodo nuevo){
-        nuevo.setSiguiente(primerNodo);
-        primerNodo = nuevo;
-        primeroAntiguo = primerNodo;
-        darTamañoLista();
-    }
-    public void appendNodeInPos(Nodo nuevo, int pos){
 
+    public void AppendNode(Nodo<T> nuevo){
+        primeroAntiguo = primerNodo;
+        nuevo.setSiguiente((Nodo<T>) primerNodo);
+        primerNodo = nuevo;
+        tamanio++;
     }
-    public Nodo ConsultarNodo(int pos){
-        Nodo buscado = null;
+    public void appendNodeInPos(Nodo<T> nuevo, int pos){}
+    
+    public Nodo<T> ConsultarNodo(int pos){
+        Nodo<T> buscado = null;
         if (pos==tamanio-1) buscado = ultimoNodo;
         else{
             int iterador = 0;
-            Nodo evaluado = primerNodo;
+            Nodo<T> evaluado = primerNodo;
             boolean encontro = false;
             while(evaluado != null && !encontro){
-                encontro = (iterador == pos)? true :false;
+                encontro = (iterador == pos);
                 if (encontro) buscado = evaluado;
-                else iterador++;
+                else {
+                    evaluado = evaluado.getSiguiente();
+                    iterador++;}
             }
         }
         return buscado;
     }
     public void deleteNode(int pos){
-        Nodo anterior = ConsultarNodo(pos-1);
+        Nodo<T> anterior = ConsultarNodo(pos-1);
         if (pos == tamanio-1) {
             anterior.setSiguiente(null);
             ultimoNodo = anterior;
         } else if (pos == 0){
-            Nodo siguiente = primerNodo.getSiguiente();
+            Nodo<T> siguiente = (Nodo<T>) primerNodo.getSiguiente();
+            primeroAntiguo = primerNodo;
             primerNodo.setSiguiente(null);
             primerNodo = siguiente;
-            primeroAntiguo = primerNodo;
         } else {
-            Nodo aBorrar = ConsultarNodo(pos);
+            Nodo<T> aBorrar = ConsultarNodo(pos);
             anterior.setSiguiente(aBorrar.getSiguiente());
             aBorrar.setSiguiente(null);
         }
-        darTamañoLista();
+        tamanio--;
     }
-
 }

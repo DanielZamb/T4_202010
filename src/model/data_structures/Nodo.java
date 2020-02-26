@@ -1,37 +1,28 @@
 package model.data_structures;
 
 public class Nodo<T> {
-    private Nodo siguiente;
-    private T properties;
-    private T geometry;
+    private Nodo<T> siguiente;
+    private T info;
 
-    public Nodo(Nodo siguiente, T properties, T geometry){
+    public Nodo(Nodo<T> siguiente, T features){
         this.siguiente = siguiente;
-        this.properties = properties;
-        this.geometry = geometry;
+        this.info = features;
     }
 
-    public Nodo getSiguiente() {
+    public Nodo<T> getSiguiente() {
         return siguiente;
     }
 
-    public T getProperties() {
-        return properties;
+    public T getInfo() {
+        return info;
     }
 
-    public T getGeometry() {
-        return geometry;
-    }
 
-    public void setSiguiente(Nodo siguiente) {
+    public void setSiguiente(Nodo<T> siguiente) {
         this.siguiente = siguiente;
     }
 
-    public void setProperties(T properties) {
-        this.properties = properties;
-    }
-
-    public void setGeometry(T geometry) {
-        this.geometry = geometry;
+    public void setInfo(T feature) {
+        this.info = feature;
     }
 }
