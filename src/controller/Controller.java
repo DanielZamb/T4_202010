@@ -23,10 +23,7 @@ public class Controller {
 	/* Instancia de la Vista*/
 	private View view;
 	
-	/**
-	 * Crear la vista y el modelo del proyecto
-	 * @param capacidad tamaNo inicial del arreglo
-	 */
+
 	public Controller ()
 	{
 		view = new View();
@@ -45,7 +42,6 @@ public class Controller {
 			int option = lector.nextInt();
 			switch(option){
 			case 1:
-				view.printMessage("--------- \n Cargar comparendos a estructuras : \n-Queue\n-Stack\n-LinkedList ");
 				view.printMessage("Loading...");
 				try {
 					Gson gson = new Gson();
@@ -60,17 +56,47 @@ public class Controller {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-			    view.printMessage("Datos Cargados y estructuras creadas.");
-			    view.printMessage("Comparendo conMayor OBJECTID: " + modelo.getMayorOBJ().toString() + "\n---------");
-			    view.printMessage("Coordenadas de Rectangulo MiniMax :\n");
-			    view.printMessage("[");
-			    for (Double i:modelo.getMinMax()) {
-			    	view.printMessage(""+i);
-			    	view.printMessage(",");
-			    }
-			    view.printMessage("]");
+			    view.printMessage("Datos Cargados.");
+			    view.printMessage("Primer comparendo del arreglo: " + modelo.getPrimerComparendo().toString() + "\n-----------------------------");
+			    view.printMessage("Ultimo comparendo del arreglo: "+ modelo.getUltimoComparendo().toString()+"\n-----------------------------");
 				break;
-				}
+				case 2:
+					view.printMessage("Loading...");
+					modelo.copiarComparendos();
+					view.printMessage("Arreglo Comparable[] creado");
+					view.printMessage("Tamaño del arreglo creado:" + modelo.getTamanio()+" comparendos");
+					break;
+				case 3:
+					view.printMessage("Sorting started");
+					view.printMessage("Loading...");
+					Features[] ordenado_S = modelo.ordenarShellSort(modelo.getCopia());
+					view.printMessage("Arreglo ordenado");
+					for (int i=0 ;i< ordenado_S.length-1;i++){
+						view.printMessage(ordenado_S[i].toString());
+						if (i == 10) view.printMessage("----------------------------------");
+					}
+					break;
+				case 4:
+					view.printMessage("Sorting started");
+					view.printMessage("Loading...");
+					Features[] ordenado_M = modelo.ordenarMergeSort(modelo.getCopia());
+					view.printMessage("Arreglo ordenado");
+					for (int i=0 ;i < ordenado_M.length-1;i++){
+						view.printMessage(ordenado_M[i].toString());
+						if (i == 10) view.printMessage("----------------------------------");
+					}
+					break;
+				case 5:
+					view.printMessage("Sorting started");
+					view.printMessage("Loading...");
+					Features[] ordenado_Q = modelo.ordenarQuickSort(modelo.getCopia());
+					view.printMessage("Arreglo ordenado");
+					for (int i=0 ;i < ordenado_Q.length-1;i++){
+						view.printMessage(ordenado_Q[i].toString());
+						if (i == 10) view.printMessage("----------------------------------");
+					}
+					break;
+			}
 		}
 		
 	}	

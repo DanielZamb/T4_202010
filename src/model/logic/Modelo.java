@@ -14,7 +14,7 @@ public class Modelo<S extends Comparable <S>> {// ,S extends Comparable<S>
 	 */
 	private IArregloDinamico<S> arregloD;
 	private int tamanio;
-	private S dato;
+	private Comparable[] copia;
 	private Features primerComparendo;
 	private Features ultimoComparendo;
 
@@ -30,82 +30,92 @@ public class Modelo<S extends Comparable <S>> {// ,S extends Comparable<S>
 
 	public Modelo(List<S> listaFeatures) {
 		cargarComparendos(listaFeatures);
-		objConMayorOBJID();
-		MiniMax();
+
 	}
 
 	public void cargarComparendos(List<S> listaFeatures) {
 		try {
 			long startTime = System.nanoTime();
 			arregloD = new ArregloDinamico<Features>(listaFeatures.size());
-			ListaEncadenada.forEach(feature->{
+			listaFeatures.forEach(feature -> {
 				arregloD.agregar((S) feature);
 			});
-			//Nodo<Features> primero = new Nodo<Features>(null, (Features) listaFeatures.get(0));
-			//Nodo<Features> ultimo = new Nodo<Features>(null, (Features) listaFeatures.get(listaFeatures.size() - 1));
-			//tamanio;
+			primerComparendo = (Features) listaFeatures.get(0);
+			ultimoComparendo = (Features) listaFeatures.get(listaFeatures.size()-1);
+			tamanio = arregloD.darTamano();
 			long endTime = System.nanoTime();
 			long elapsedTime = endTime - startTime;
 			double convertET = (double) elapsedTime / 1000000000;
 			System.out.println("tamaño del arreglo: " + arregloD.darTamano());
-			System.out.println(
-					"Datos cargados en estructuras -----// \n\tTime elapsed loading data: " + convertET + " seconds");
+			System.out.println("Time elapsed loading data: " + convertET + " seconds");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	public void objConMayorOBJID() {
-		Features obj = null;
-		Nodo<Features> evaluado = (Nodo<Features>) listaComparendos.getPrimerNodo();
-		int mayor = 0;
-		while (evaluado != null) {
-			int comp = evaluado.getInfo().getProperties().getOBJECTID();
-			if (comp > mayor) {
-				obj = evaluado.getInfo();
-				mayor = comp;
-			}
-			evaluado = (Nodo<Features>) evaluado.getSiguiente();
-		}
-		mayorObj = obj;
+	public Features getPrimerComparendo() {
+		return primerComparendo;
 	}
 
-	public void MiniMax() {
-		Nodo<Features> evaluado = (Nodo<Features>) listaComparendos.getPrimerNodo();
-		double HiLat = 0;
-		double HiLong = 0;
-		double LoLat = 0;
-		double LoLong = 0;
-		while (evaluado != null) {
-			double compLat = evaluado.getInfo().getGeometry().DarCoordenadas().get(0);
-			double compLong = evaluado.getInfo().getGeometry().DarCoordenadas().get(1);
-			if (compLat > HiLat) HiLat = compLat; 
-			else if (compLat < LoLat) LoLat=compLat;
-			if (compLong > HiLong) HiLong = compLong;
-			else if (compLong < LoLong ) LoLong = compLong; 
-			evaluado = (Nodo<Features>) evaluado.getSiguiente();
-		}
-		Double[] coor = { HiLat, HiLong, LoLat, LoLong };
-		MinMax = coor;
-	}
-	public String getPrimerComparendoInfrac(String pInfraccion) {
-		return null;
-	}
-	public String getListaComparendosInfrac(String pInfraccion, String pFecha) {
-		return null;
-	}
-	public void compareNumInfraccionesTipoSevicio(String pInfraccion) {}
-	public void mostrarComparendosLocalidadFecha(String Localidad, String startDate,String endDate) {}
-	public void consultarNumInfraccionesMasComparendosPorTiempo(int Num,String startDate,String endDate ) {}
-	public void generarHistograma() {}
-	public void primerComparendoPorLocalidad(String localidad) {}
-	public void getComparendosPorFechaOrdenados(String pFecha) {}
-	public void compareComparendosPorCodigoFecha(String pCodigo, String pFecha) {}
-	public Features getMayorOBJ() {
-		return mayorObj;
+	public Features getUltimoComparendo() {
+		return ultimoComparendo;
 	}
 
-	public Double[] getMinMax() {
-		return MinMax;
+	public int getTamanio() {
+		return tamanio;
 	}
+
+	public Comparable[] copiarComparendos() {
+		Features[] nuevo = new Features[arregloD.darTamano()];
+		for (int i=0;i<arregloD.darTamano();i++){
+			nuevo[i] = (Features) arregloD.darElemento(i);
+		}
+		tamanio = nuevo.length;
+		copia = nuevo;
+		return nuevo;
+	}
+	public Features[] ordenarShellSort(Comparable[] list){
+		long startTime = System.currentTimeMillis();
+		Shell.sort(list);
+		long endTime = System.currentTimeMillis();
+		long elapsedTime = endTime - startTime;
+		System.out.println("Time elapsed ShellSorting the array: "+elapsedTime+" miliseconds");
+		return comparendosOrdenados(list);
+	}
+	public Features[] ordenarMergeSort(Comparable[] list){
+		long startTime = System.currentTimeMillis();
+		Merge.sort(list);
+		long endTime = System.currentTimeMillis();
+		long elapsedTime = endTime - startTime;
+		System.out.println("Time elapsed MergeSorting the array: "+elapsedTime+" miliseconds");
+		return comparendosOrdenados(list);
+
+	}
+	public Features[] ordenarQuickSort(Comparable[] list){
+		long starTime =System.currentTimeMillis();
+		Quick.sort(list);
+		long endTime = System.currentTimeMillis();
+		long elapsedTime = endTime - starTime;
+		System.out.println("Time elapsed QuickSorting the array: "+elapsedTime+" miliseconds");
+		return comparendosOrdenados(list);
+
+	}
+	public Comparable[] getCopia(){
+		return copia;
+	}
+
+	private Features[] comparendosOrdenados(Comparable[] list){
+		int k = 0;
+		Features[] comparendos_ = new Features[20];
+		for(int i=0;i<10;i++){
+			comparendos_[i] = (Features) list[i];
+		}
+		for (int j=list.length-11;j<=list.length-1;j++){
+			if (list[j] == null) j++;
+			comparendos_[9+k] = (Features) list[j];
+			k++;
+		}
+		return comparendos_;
+	}
+
 }
