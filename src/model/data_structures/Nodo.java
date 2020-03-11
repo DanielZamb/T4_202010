@@ -10,7 +10,6 @@ public class Nodo<T> {
         public Nodo<T> getSiguiente() {
             return siguiente;
         }
-
         public T getInfo() {
             return info;
         }

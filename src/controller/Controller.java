@@ -41,6 +41,16 @@ public class Controller {
 			view.printMenu();
 			int option = lector.nextInt();
 			switch(option){
+<<<<<<< HEAD
+				case 1:
+					view.printMessage("--------- \nCrear Arreglo \nDar capacidad inicial del arreglo: ");
+				    //int capacidad = lector.nextInt();
+				    //modelo = new Modelo(capacidad);
+				    view.printMessage("Arreglo Dinamico creado");
+				    view.printMessage("Numero actual de elementos " + modelo.darTamano() + "\n---------");						
+					break;
+
+=======
 			case 1:
 				view.printMessage("Loading...");
 				try {
@@ -60,6 +70,7 @@ public class Controller {
 			    view.printMessage("Primer comparendo del arreglo: " + modelo.getPrimerComparendo().toString() + "\n-----------------------------");
 			    view.printMessage("Ultimo comparendo del arreglo: "+ modelo.getUltimoComparendo().toString()+"\n-----------------------------");
 				break;
+>>>>>>> master
 				case 2:
 					view.printMessage("Loading...");
 					modelo.copiarComparendos();
