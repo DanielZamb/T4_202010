@@ -8,7 +8,6 @@ public class Nodo<T> {
         this.siguiente = siguiente;
         this.info = features;
     }
-
     public Nodo<T> getSiguiente() {
         return siguiente;
     }
@@ -16,8 +15,6 @@ public class Nodo<T> {
     public T getInfo() {
         return info;
     }
-
-
     public void setSiguiente(Nodo<T> siguiente) {
         this.siguiente = siguiente;
     }

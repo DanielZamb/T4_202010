@@ -30,7 +30,11 @@ public class Features {
         this.properties = properties;
     }
 
-    public Geometry darGeometry(){
+    public Geometry getGeometry(){
         return geometry;
+    }
+
+    public Properties getProperties() {
+        return properties;
     }
 }
